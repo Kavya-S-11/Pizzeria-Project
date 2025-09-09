@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ui-service
+
+admin-service:
+  url: http://localhost:8087/api/admins
+
+user-service:
+  url: http://localhost:8088/api/branches
