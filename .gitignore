@@ -9,3 +9,6 @@ Thumbs.db
 # Build folders
 bin/
 target/
+
+Admin-Service/data/
+User-Service/data/
