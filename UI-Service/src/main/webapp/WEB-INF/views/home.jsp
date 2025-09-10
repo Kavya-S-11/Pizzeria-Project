@@ -47,7 +47,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
-                <li class="nav-item"><a class="nav-link" href="/ui/cart"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                <li class="nav-item"><a class="nav-link" href="/ui/users/login"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown">Login</a>
                     <ul class="dropdown-menu">
@@ -65,7 +65,7 @@
 <div class="hero" data-aos="fade-up">
     Order Your Favorite Pizza Online!!!!
     <br>
-    <a href="#menu" class="btn btn-light btn-lg">View Menu</a>
+    <a href="/ui/users/login" class="btn btn-light btn-lg">View Menu</a>
 </div>
 
 <section id="about">

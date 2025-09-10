@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.pizza.user.dto.MenuDTO;
 
-@FeignClient(name = "menu-service", url = "http://localhost:8081")
+@FeignClient(name = "menu-service", url = "http://localhost:8082")
 public interface MenuClient {
 
     @GetMapping("/menu/{id}")

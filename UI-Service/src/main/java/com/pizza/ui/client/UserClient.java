@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "user-service", url = "http://localhost:8088/api/users")
+@FeignClient(name = "user-service", url = "http://localhost:8088/api/users",contextId="userClient")
 public interface UserClient {
 
     // ==================== REGISTER ====================

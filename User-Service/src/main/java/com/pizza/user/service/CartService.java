@@ -31,7 +31,7 @@ public class CartService {
 
     // Add item to cart
     public CartDTO addToCart(Long userId, Long itemId, int quantity) {
-        Cart cart = cartRepository.findByUserId(userId).orElseGet(() -> {
+        Cart cart = cartRepository.findByUser_UserId(userId).orElseGet(() -> {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("User not found"));
             Cart newCart = Cart.builder()
@@ -73,7 +73,7 @@ public class CartService {
 
     // Get user cart
     public CartDTO getCart(Long userId) {
-        Cart cart = cartRepository.findByUserId(userId).orElseGet(() ->
+        Cart cart = cartRepository.findByUser_UserId(userId).orElseGet(() ->
                 Cart.builder()
                         .user(userRepository.findById(userId)
                                 .orElseThrow(() -> new RuntimeException("User not found")))
@@ -86,7 +86,7 @@ public class CartService {
 
     // Remove item from cart
     public CartDTO removeFromCart(Long userId, Long itemId) {
-        Cart cart = cartRepository.findByUserId(userId).orElse(null);
+        Cart cart = cartRepository.findByUser_UserId(userId).orElse(null);
         if (cart != null) {
             cart.getItems().removeIf(i -> i.getMenuItemId().equals(itemId));
             cart.setTotalAmount(cart.getItems().stream().mapToDouble(CartItem::getSubtotal).sum());
@@ -97,7 +97,7 @@ public class CartService {
 
     // Clear cart
     public void clearCart(Long userId) {
-        Cart cart = cartRepository.findByUserId(userId).orElse(null);
+        Cart cart = cartRepository.findByUser_UserId(userId).orElse(null);
         if (cart != null) {
             cartRepository.delete(cart);
         }

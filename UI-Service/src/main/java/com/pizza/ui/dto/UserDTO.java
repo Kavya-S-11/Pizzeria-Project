@@ -8,12 +8,14 @@ import lombok.Data;
 public class UserDTO {
 	
 	@JsonProperty("userId")
-    private Long id;
+    private Long userId;
     private String email;
     private String password;
     private String name;
     private String token;  
     private String phone;
     private String address;
+    
+    
     
 }

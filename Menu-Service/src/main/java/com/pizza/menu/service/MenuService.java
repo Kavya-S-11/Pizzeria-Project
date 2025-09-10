@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.pizza.menu.entity.Menu;
 import com.pizza.menu.repository.MenuRepository;
@@ -14,6 +16,7 @@ public class MenuService {
 
     @Autowired
     private MenuRepository menuRepository;
+   
 
     public List<Menu> getAllItems() {
         return menuRepository.findAll();
@@ -24,22 +27,21 @@ public class MenuService {
         return item.orElse(null); // or throw exception if preferred
     }
 
-    public Menu addItem(Menu menu) {
-        return menuRepository.save(menu);
+    public Menu addItem(Menu menuItem) {
+        return menuRepository.save(menuItem);
     }
 
     public Menu updateItem(Long id, Menu menu) {
-        Optional<Menu> existing = menuRepository.findById(id);
-        if (existing.isPresent()) {
-            Menu m = existing.get();
-            m.setName(menu.getName());
-            m.setDescription(menu.getDescription());
-            m.setPrice(menu.getPrice());
-            m.setCategory(menu.getCategory());
-            return menuRepository.save(m);
-        }
-        return null; // or throw exception
+        return menuRepository.findById(id).map(existing -> {
+            if (menu.getName() != null) existing.setName(menu.getName());
+            if (menu.getDescription() != null) existing.setDescription(menu.getDescription());
+            if (menu.getPrice() != 0) existing.setPrice(menu.getPrice());
+            if (menu.getCategory() != null) existing.setCategory(menu.getCategory());
+            if (menu.getImageUrl() != null) existing.setImageUrl(menu.getImageUrl());
+            return menuRepository.save(existing);
+        }).orElse(null);
     }
+
 
     public void deleteItem(Long id) {
         menuRepository.deleteById(id);

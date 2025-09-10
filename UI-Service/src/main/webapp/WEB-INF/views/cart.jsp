@@ -1,46 +1,62 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>My Cart</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>My Cart - Healthify</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp"/>
 <div class="container mt-5">
-    <h2>My Cart</h2>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="item" items="${cart}">
-            <tr>
-                <td>${item.menuItem.name}</td>
-                <td>$${item.menuItem.price}</td>
-                <td>${item.quantity}</td>
-                <td>$${item.total}</td>
-                <td>
-                    <a href="${pageContext.request.contextPath}/cart/remove/${item.menuItem.id}" class="btn btn-danger btn-sm">Remove</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
 
-    <div class="mt-3">
-        <c:set var="grandTotal" value="0"/>
-        <c:forEach var="item" items="${cart}">
-            <c:set var="grandTotal" value="${grandTotal + item.total}"/>
-        </c:forEach>
-        <h4>Grand Total: $${grandTotal}</h4>
-        <a href="/order/checkout" class="btn btn-success">Proceed to Checkout</a>
-    </div>
+    <h2 class="mb-4">My Cart</h2>
+    <a href="${pageContext.request.contextPath}/ui/menus" class="btn btn-secondary mb-3">Back to Menu</a>
+
+    <c:if test="${cart.items == null || cart.items.isEmpty()}">
+        <p>Your cart is empty.</p>
+    </c:if>
+
+    <c:if test="${not empty cart.items}">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="item" items="${cart.items}">
+                <tr>
+                    <td>${item.name}</td>
+                    <td>₹${item.price}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${item.subtotal}</td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/ui/cart/remove" method="post">
+                            <input type="hidden" name="itemId" value="${item.itemId}">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+
+        <h4>Total: ₹${cart.totalAmount}</h4>
+
+        <div class="mt-3">
+            <form action="${pageContext.request.contextPath}/ui/cart/clear" method="post">
+                <button type="submit" class="btn btn-warning">Clear Cart</button>
+            </form>
+            <a href="#" class="btn btn-success">Proceed to Checkout</a>
+        </div>
+    </c:if>
+
 </div>
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>

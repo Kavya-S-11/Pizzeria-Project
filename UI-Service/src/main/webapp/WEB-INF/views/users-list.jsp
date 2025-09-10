@@ -8,7 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+<jsp:include page="/WEB-INF/views/header.jsp"/>
 <div class="container mt-5">
+
     <h2>All Users</h2>
     
     <c:if test="${not empty success}">
@@ -38,15 +40,15 @@
         <tbody>
         <c:forEach var="user" items="${users}">
             <tr>
-                <td>${user.id}</td>
+                <td>${user.userId}</td>
                 <td>${user.name}</td>
                 <td>${user.email}</td>
                 <td>${user.address}</td>
                 <td>${user.phone}</td>
                 
                 <td>
-                    <a href="${pageContext.request.contextPath}/ui/users/admin/edit/${user.id}" class="btn btn-primary btn-sm">Edit</a>
-                    <form action="${pageContext.request.contextPath}/ui/users/admin/delete/${user.id}" method="post" style="display:inline">
+                    <a href="${pageContext.request.contextPath}/ui/users/admin/edit/${user.userId}" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="${pageContext.request.contextPath}/ui/users/admin/delete/${user.userId}" method="post" style="display:inline">
                         <input type="hidden" name="_method" value="delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
@@ -57,5 +59,6 @@
     </table>
 </div>
  <a href="${pageContext.request.contextPath}/ui/admins/dashboard?token=${jwtToken}" class="btn btn-secondary">Back to Dashboard</a>
+
 </body>
 </html>

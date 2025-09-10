@@ -1,7 +1,11 @@
 package com.pizza.ui.controller;
 
 import com.pizza.ui.client.CartClient;
+import com.pizza.ui.client.MenuClient;
 import com.pizza.ui.dto.CartDTO;
+import com.pizza.ui.dto.MenuDTO;
+import com.pizza.ui.dto.UserDTO;
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,61 +15,76 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/ui/cart")
 public class CartUIController {
 
-    private final CartClient cartClient;
+	  private final CartClient cartClient;
+	    private final MenuClient menuClient; 
 
-    public CartUIController(CartClient cartClient) {
-        this.cartClient = cartClient;
-    }
-
-    // Add item to cart
+	    public CartUIController(CartClient cartClient, MenuClient menuClient) {
+	        this.cartClient = cartClient;
+	        this.menuClient = menuClient; 
+	    }
     @PostMapping("/add")
     public String addToCart(@RequestParam Long itemId,
                             @RequestParam int quantity,
                             HttpSession session) {
 
-        Long userId = (Long) session.getAttribute("userId"); // Get logged-in user ID
-        if (userId == null) {
-            return "redirect:/login"; // redirect to login if not logged in
+        UserDTO user = (UserDTO) session.getAttribute("user"); // get user object
+        if (user == null) {
+        	System.out.println("User not in session!");
+            return "redirect:/ui/users/login"; // not logged in
         }
 
-        cartClient.addToCart(userId, itemId, quantity); // call User-Service
+        Long userId = user.getUserId(); // extract ID from user object
+        MenuDTO menuItem;
+        try {
+            menuItem = menuClient.getMenuByIdforUser(itemId); // call user-facing endpoint
+        } catch (Exception e) {
+            System.out.println("Menu item not found: " + itemId);
+            return "redirect:/ui/menus?error=ItemNotFound"; // redirect to menu page with error
+        }
+
+        if (menuItem == null) {
+            System.out.println("Menu item not found: " + itemId);
+            return "redirect:/ui/menus?error=ItemNotFound"; 
+        }
+        cartClient.addToCart(userId, itemId, quantity); 
         return "redirect:/ui/cart";
     }
 
-    // View user cart
     @GetMapping
     public String viewCart(HttpSession session, Model model) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login";
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/ui/users/login";
         }
 
-        CartDTO cart = cartClient.getCart(userId); // fetch cart from User-Service
+        CartDTO cart = cartClient.getCart(user.getUserId()); 
         if (cart == null) {
-            cart = new CartDTO(); // empty cart if null
+            cart = new CartDTO(); 
         }
 
+        Long userId = user.getUserId();
         model.addAttribute("cart", cart);
-        return "cart"; // JSP page = cart.jsp
+        return "cart"; // JSP page
     }
 
-    // Remove item from cart
     @PostMapping("/remove")
     public String removeFromCart(@RequestParam Long itemId, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId != null) {
-            cartClient.removeFromCart(userId, itemId);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if (user != null) {
+            cartClient.removeFromCart(user.getUserId(), itemId);
         }
+        Long userId = user.getUserId();
         return "redirect:/ui/cart";
     }
 
-    // Clear cart
     @PostMapping("/clear")
     public String clearCart(HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId != null) {
-            cartClient.clearCart(userId);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if (user != null) {
+            cartClient.clearCart(user.getUserId());
         }
+        Long userId = user.getUserId();
         return "redirect:/ui/cart";
     }
+
 }

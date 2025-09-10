@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp"/>
 <div class="container mt-5">
     <div class="card profile-card">
         <div class="card-header text-center bg-primary text-white">
@@ -88,5 +89,7 @@ function enableEditing() {
     document.getElementById('updateBtn').classList.remove('d-none');
 }
 </script>
+
 </body>
+
 </html>

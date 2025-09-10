@@ -4,7 +4,7 @@ import com.pizza.ui.dto.CartDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "user-service", url = "${user-service.url}")
+@FeignClient(name = "user-service", url = "http://localhost:8088/api/users",contextId="cartClient")
 public interface CartClient {
 
     @PostMapping("/cart/{userId}/add")

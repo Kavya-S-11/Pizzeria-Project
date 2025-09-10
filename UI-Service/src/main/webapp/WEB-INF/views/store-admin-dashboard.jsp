@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp"/>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Welcome, ${admin.username}!</h2>
@@ -21,6 +22,13 @@
     <!-- View Profile -->
 <a href="${pageContext.request.contextPath}/ui/admins/profile?token=${jwtToken}" 
    class="btn btn-info btn-sm ms-2">View Profile</a>
+   <!-- Admin dashboard buttons -->
+<a href="${pageContext.request.contextPath}/ui/admin/menu" class="btn btn-info">
+    Manage Menu Items
+</a>
+<a href="${pageContext.request.contextPath}/ui/admin/menu/add" class="btn btn-success">
+    Add Menu Item
+</a>
 
     <!-- Profile Details -->
     <div class="card mt-4">
@@ -39,5 +47,6 @@
         </div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>
