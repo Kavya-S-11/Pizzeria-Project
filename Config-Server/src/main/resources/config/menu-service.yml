@@ -1,9 +1,9 @@
 server:
-  port: 8087
+  port: 8082
 
 spring:
   application:
-    name: admin-service
+    name: menu-service
 
   mvc:
     view:
@@ -11,7 +11,7 @@ spring:
       suffix: .jsp
 
   datasource:
-    url: jdbc:h2:file:./data/admindb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:./data/menudb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driverClassName: org.h2.Driver
     username: sa
     password:

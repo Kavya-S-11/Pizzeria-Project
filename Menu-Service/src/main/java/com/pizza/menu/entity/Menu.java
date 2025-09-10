@@ -4,18 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "menu_items")
 @Data
 @Builder
+@NoArgsConstructor      
+@AllArgsConstructor     
 public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String itemName;
+    private String name;
     private String description;
-    private Double price;
-    private Boolean available = true;
+    private String category;
+    private double price;
+    private String imageUrl;
 
 }
