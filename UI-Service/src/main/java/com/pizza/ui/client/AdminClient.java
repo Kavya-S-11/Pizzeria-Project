@@ -33,8 +33,9 @@ public interface AdminClient {
     // ================= UPDATE ADMIN =================
     @PutMapping("/{id}")
     AdminDTO updateAdmin(@PathVariable("id") Long id,
-                         @RequestBody AdminDTO admin,
+                         @RequestBody AdminDTO adminDTO,
                          @RequestParam("token") String token);
+
 
     // ================= DEACTIVATE ADMIN =================
     @PutMapping("/{id}/deactivate")

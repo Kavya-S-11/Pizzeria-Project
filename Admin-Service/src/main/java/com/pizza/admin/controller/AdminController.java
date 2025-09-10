@@ -75,15 +75,24 @@ public class AdminController {
     // ================= UPDATE ADMIN =================
     @PutMapping("/{id}")
     public AdminDTO updateAdmin(@PathVariable Long id,
-                                @RequestBody Admin admin,
-                                @RequestParam(required = false) Long branchId) {
-        admin.setId(id);
-        if (branchId != null) {
-            Branch branch = branchService.getBranchById(branchId);
-            admin.setBranch(branch);
+                                @RequestBody AdminDTO adminDTO,
+    							@RequestParam("token") String token){
+        // Ensure the id from path is set
+        adminDTO.setId(id);
+
+        // Convert DTO → Entity
+        Admin adminEntity = adminService.toEntity(adminDTO);
+
+        // Attach branch if branchId is present
+        if (adminDTO.getBranchId() != null) {
+            Branch branch = branchService.getBranchById(adminDTO.getBranchId());
+            adminEntity.setBranch(branch);
         }
-        return adminService.toDTO(adminService.updateAdmin(admin));
+
+        // Save and return updated DTO
+        return adminService.toDTO(adminService.updateAdmin(adminEntity));
     }
+
 
     // ================= DEACTIVATE / ACTIVATE =================
     @PutMapping("/{id}/deactivate")

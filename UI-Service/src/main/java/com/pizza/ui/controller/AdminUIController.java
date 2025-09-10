@@ -228,60 +228,42 @@ public class AdminUIController {
     }
 
     @PostMapping("/profile/update")
-    public String updateProfile(@RequestParam String token,
-                                @ModelAttribute AdminDTO adminDTO,
+    public String updateProfile(@ModelAttribute AdminDTO adminDTO,
+                                HttpServletRequest request,
                                 Model model) {
         try {
-            // Clean the token if it has "Bearer "
-            if (token != null && token.startsWith("Bearer ")) {
-                token = token.substring(7);
-            }
+            String token = (String) request.getSession().getAttribute("jwtToken");
+            if (token == null) return "redirect:/ui/admins/login";
 
-            // Get logged-in admin from token
             AdminDTO loggedInAdmin = adminClient.getAdminFromToken(token);
-            if (loggedInAdmin == null) {
-                return "redirect:/ui/admins/login";
-            }
+            if (loggedInAdmin == null) return "redirect:/ui/admins/login";
 
-            // Determine which admin to update
             Long targetAdminId = (loggedInAdmin.getAdminRole() == AdminDTO.Role.SUPER_ADMIN)
                     ? adminDTO.getId()
                     : loggedInAdmin.getId();
 
             if (targetAdminId == null) {
-                // Safety check
                 model.addAttribute("admin", adminDTO);
-                model.addAttribute("jwtToken", token);
                 model.addAttribute("error", "Invalid admin ID. Cannot update profile.");
                 return "admin-profile";
             }
 
-            // Fetch existing admin from backend to preserve some fields
+            // Preserve fields
             AdminDTO existing = adminClient.getAdminById(targetAdminId, token);
-            if (existing == null) {
-                model.addAttribute("admin", adminDTO);
-                model.addAttribute("jwtToken", token);
-                model.addAttribute("error", "Admin not found. Cannot update profile.");
-                return "admin-profile";
-            }
-
-            // Preserve fields that should not be overwritten
             adminDTO.setId(targetAdminId);
             adminDTO.setActive(existing.isActive());
-            adminDTO.setPassword(existing.getPassword()); // Preserve password if needed
+            adminDTO.setPassword(existing.getPassword());
 
-            // Call backend to update admin
+            // Call backend to update
             AdminDTO updatedAdmin = adminClient.updateAdmin(targetAdminId, adminDTO, token);
 
             model.addAttribute("admin", updatedAdmin);
-            model.addAttribute("jwtToken", token);
             model.addAttribute("success", "Profile updated successfully!");
             return "admin-profile";
 
         } catch (Exception e) {
             log.error("Error updating profile", e);
             model.addAttribute("admin", adminDTO);
-            model.addAttribute("jwtToken", token);
             model.addAttribute("error", "Failed to update profile. Please try again.");
             return "admin-profile";
         }

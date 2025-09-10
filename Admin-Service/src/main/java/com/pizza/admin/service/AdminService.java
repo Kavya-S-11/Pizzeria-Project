@@ -9,13 +9,17 @@ import org.springframework.stereotype.Service;
 import com.pizza.admin.config.JwtUtil;
 import com.pizza.admin.dto.AdminDTO;
 import com.pizza.admin.entity.Admin;
+import com.pizza.admin.entity.Branch;
 import com.pizza.admin.repository.AdminRepository;
+import com.pizza.admin.repository.BranchRepository;
 
 @Service
 public class AdminService {
 
     @Autowired
     private AdminRepository adminRepo;
+    @Autowired
+    private BranchRepository branchRepo;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -55,16 +59,17 @@ public class AdminService {
             existing.setAdminRole(admin.getAdminRole());
         }
 
-        // Update branch if provided
-        if (admin.getBranch() != null) {
-            existing.setBranch(admin.getBranch());
+        // ✅ Correct branch update
+        if (admin.getBranch() != null && admin.getBranch().getId() != null) {
+            Branch branch = branchRepo.findById(admin.getBranch().getId())
+                    .orElseThrow(() -> new RuntimeException("Branch not found!"));
+            existing.setBranch(branch);
         }
 
-        existing.setActive(admin.isActive()); // always update active
+        existing.setActive(admin.isActive());
 
         return adminRepo.save(existing);
     }
-
 
     // ---------------- Get All Admins ----------------
     public List<Admin> getAllAdmins() {
@@ -101,6 +106,26 @@ public class AdminService {
             dto.setBranchAddress(admin.getBranch().getAddress());
         }
         return dto;
+    }
+
+    
+    public Admin toEntity(AdminDTO dto) {
+        Admin admin = new Admin();
+        admin.setId(dto.getId());
+        admin.setUsername(dto.getUsername());
+        admin.setEmail(dto.getEmail());
+        admin.setPhoneNumber(dto.getPhoneNumber());
+        admin.setPassword(dto.getPassword());
+        admin.setAdminRole(dto.getAdminRole());
+        admin.setActive(dto.isActive());
+
+        if (dto.getBranchId() != null) {
+            Branch branch = new Branch();
+            branch.setId(dto.getBranchId());  // lightweight reference
+            admin.setBranch(branch);
+        }
+
+        return admin;
     }
 
     // ---------------- Other Methods ----------------
