@@ -1,48 +1,48 @@
 package com.pizza.order.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-
-import com.pizza.order.dto.Menu;
 
 @Entity
 @Table(name = "orders")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderId;
 
-    private Long userId;   // user placing the order
-    private String status; // PENDING, CONFIRMED, DELIVERED
+    private Long userId; // ID of the user placing the order
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_menu",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "menu_id")
-    )
-    private List<Menu> items;
+    private double totalAmount;
 
-    // Constructors
-    public Order() {}
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; // PENDING, ACCEPTED, REJECTED, CANCELLED
 
-    public Order(Long userId, String status, List<Menu> items) {
-        this.userId = userId;
-        this.status = status;
-        this.items = items;
+    private String deliveryMode; // e.g., "Home Delivery" or "Pickup"
+
+    private LocalDateTime orderDate;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items=new ArrayList<>(); // List of items in the order
+
+    private String adminMessage; // message from admin about order status
+    
+    
+    public enum OrderStatus {
+        PENDING,
+        ACCEPTED,
+        REJECTED,
+        CANCELLED,
+        COMPLETED
     }
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
-    public List<Menu> getItems() { return items; }
-    public void setItems(List<Menu> items) { this.items = items; }
 }
+
+
+

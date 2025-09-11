@@ -61,8 +61,7 @@ public class CartUIController {
         if (cart == null) {
             cart = new CartDTO(); 
         }
-
-        Long userId = user.getUserId();
+        session.setAttribute("cart", cart);
         model.addAttribute("cart", cart);
         return "cart"; // JSP page
     }

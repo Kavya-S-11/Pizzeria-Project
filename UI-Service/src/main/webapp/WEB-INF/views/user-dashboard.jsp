@@ -55,6 +55,7 @@
         <div class="dashboard-buttons">
             <a href="${pageContext.request.contextPath}/ui/menus" class="btn btn-primary btn-lg">View Menu</a>
             <a href="${pageContext.request.contextPath}/ui/cart" class="btn btn-success btn-lg">View My Cart</a>
+            <a href="${pageContext.request.contextPath}/ui/orders/my" class="btn btn-primary btn-lg">View My Orders</a>
             <a href="${pageContext.request.contextPath}/ui/users/logout" class="btn btn-danger btn-lg">Logout</a>
         </div>
     </div>

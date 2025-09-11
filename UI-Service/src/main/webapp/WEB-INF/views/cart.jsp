@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Cart - Healthify</title>
+    <title>My Cart - Pizzeria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -52,7 +52,10 @@
             <form action="${pageContext.request.contextPath}/ui/cart/clear" method="post">
                 <button type="submit" class="btn btn-warning">Clear Cart</button>
             </form>
-            <a href="#" class="btn btn-success">Proceed to Checkout</a>
+            <form action="${pageContext.request.contextPath}/ui/orders/place" method="post">
+			    <input type="hidden" name="userId" value="${user.userId}">
+			    <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+			</form>
         </div>
     </c:if>
 
