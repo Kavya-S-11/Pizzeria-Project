@@ -26,5 +26,12 @@ public interface OrderClient {
     
     @PutMapping("/orders/pay/{id}")
     OrderDTO payOrder(@PathVariable("id") Long id);
+    
+    @PostMapping("/status/{orderId}")
+    void updateStatus(@PathVariable("orderId") Long orderId,
+                      @RequestParam("status") String status,
+                      @RequestParam(value = "message", required = false) String message);
+
+
 
 }

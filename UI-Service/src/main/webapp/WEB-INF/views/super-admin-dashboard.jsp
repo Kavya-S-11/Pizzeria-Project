@@ -94,6 +94,13 @@
         <a href="${pageContext.request.contextPath}/ui/admin/menu/add" class="btn btn-info">Add Menu Item</a>
         <a href="${pageContext.request.contextPath}/ui/users/admin/list" class="btn btn-info">List Users</a>
     </div>
+<div class="row mt-4">
+    <div class="col-md-3">
+        <a href="${pageContext.request.contextPath}/ui/admin/orders/pending" class="btn btn-primary w-100">
+            View Pending Orders
+        </a>
+    </div>
+</div>
 
     <!-- Admins Table -->
     <div class="card">
@@ -157,6 +164,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>

@@ -144,6 +144,8 @@ public class AdminController {
     public AdminDTO getProfile(@RequestParam String token) {
         return adminService.getAdminFromToken(token);
     }
+    
+    
 
 }
 

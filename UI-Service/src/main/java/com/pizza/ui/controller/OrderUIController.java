@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -123,15 +124,5 @@ public class OrderUIController {
         return "redirect:/ui/orders/my"; // refresh orders page
     }
 
-    @GetMapping("/admin/orders")
-    public String adminOrders(Model model) {
-        List<OrderDTO> orders = orderClient.getAllOrders();
-        // Filter only PENDING orders
-        List<OrderDTO> pendingOrders = orders.stream()
-                                             .filter(o -> "PENDING".equals(o.getStatus()))
-                                             .collect(Collectors.toList());
-        model.addAttribute("orders", pendingOrders);
-        return "adminOrders";
-    }
 
 }
