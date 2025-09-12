@@ -60,7 +60,7 @@ public class BranchController {
         return "Branch deleted successfully!";
     }
 
-    // GET admins count for each branch (optional, used for UI table)
+    // GET admins count 
     @GetMapping("/admins-count")
     public Map<Long, Boolean> getBranchAdminMap() {
         List<Branch> branches = branchService.getAllBranches();

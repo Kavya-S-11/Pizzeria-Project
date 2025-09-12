@@ -15,6 +15,6 @@ public class CustomErrorController implements ErrorController {
     public String handleError(HttpServletRequest request, Model model) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         model.addAttribute("errorMessage", "An error occurred. Status code: " + status);
-        return "error-page"; // your JSP name
+        return "error-page"; 
     }
 }

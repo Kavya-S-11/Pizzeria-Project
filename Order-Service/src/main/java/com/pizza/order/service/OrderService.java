@@ -108,4 +108,43 @@ public class OrderService {
         dto.setItems(itemDTOs);
         return dto;
     }
+    
+    public OrderDTO findById(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
+        dto.setUserId(order.getUserId());
+        dto.setTotalAmount(order.getTotalAmount());
+        dto.setStatus(order.getStatus().name()); // enum → String
+        dto.setDeliveryMode(order.getDeliveryMode());
+        dto.setOrderDate(order.getOrderDate());
+        dto.setAdminMessage(order.getAdminMessage());
+        dto.setPaymentMode(order.getPaymentMode());
+
+        // convert items too
+        List<OrderItemDTO> itemDTOs = order.getItems().stream().map(item -> {
+            OrderItemDTO i = new OrderItemDTO();
+            i.setId(item.getId());
+            i.setName(item.getName());
+            i.setQuantity(item.getQuantity());
+            i.setSubtotal(item.getSubtotal());
+            return i;
+        }).toList();
+
+        dto.setItems(itemDTOs);
+
+        return dto;
+    }
+
+
+    public void updateOrderStatus(Long orderId, String status, String paymentMode) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setStatus(Order.OrderStatus.valueOf(status.toUpperCase()));
+        order.setPaymentMode(paymentMode);
+        orderRepository.save(order);
+    }
+
 }

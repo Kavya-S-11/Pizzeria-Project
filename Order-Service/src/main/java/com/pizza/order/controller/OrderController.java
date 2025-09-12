@@ -33,19 +33,19 @@ public class OrderController {
     public OrderDTO updateStatus(@PathVariable Long id,
                                  @RequestParam OrderStatus status,
                                  @RequestParam(required = false) String message) {
-        return orderService.updateStatus(id, status, message); // returns DTO
+        return orderService.updateStatus(id, status, message); 
     }
 
     // User: view my orders
     @GetMapping("/user/{userId}")
     public List<OrderDTO> getUserOrders(@PathVariable Long userId) {
-        return orderService.getUserOrders(userId); // returns list of DTOs
+        return orderService.getUserOrders(userId);
     }
 
     // Admin: view all orders
     @GetMapping
     public List<OrderDTO> getAllOrders() {
-        return orderService.getAllOrders(); // returns list of DTOs
+        return orderService.getAllOrders(); 
     }
 
     // Admin: get revenue
@@ -53,4 +53,17 @@ public class OrderController {
     public double getMonthlyRevenue() {
         return orderService.getMonthlyRevenue();
     }
+    
+    @GetMapping("/{id}")
+    public OrderDTO getOrderById(@PathVariable Long id) {
+        return orderService.findById(id);
+    }
+
+    @PutMapping("/{id}/status")
+    public void updateOrderStatus(@PathVariable Long id,
+                                  @RequestParam String status,
+                                  @RequestParam String paymentMode) {
+        orderService.updateOrderStatus(id, status, paymentMode);
+    }
+
 }

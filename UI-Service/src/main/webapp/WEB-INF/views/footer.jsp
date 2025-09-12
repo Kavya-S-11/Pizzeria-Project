@@ -6,15 +6,16 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: #dc3545; /* red shade */
+        background-color: #f28b82; /* light red shade */
         color: white;
         text-align: center;
-        padding: 1rem 0;
+        padding: 0.5rem 0; 
+        font-size: 0.9rem; 
         z-index: 1000;
     }
 
     body {
-        padding-bottom: 10px; /* space for footer so content doesn't overlap */
+        padding-bottom: 40px; 
     }
 </style>
 

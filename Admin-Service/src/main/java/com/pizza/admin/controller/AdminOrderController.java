@@ -29,11 +29,11 @@ public class AdminOrderController {
             @RequestParam(required = false) String message) {
 
         try {
-            orderClient.updateStatus(orderId, status, message); // call order-service
+            orderClient.updateStatus(orderId, status,message); 
             return ResponseEntity.ok("Success");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("Failed to update order status");
+                                 .body("Failed to update order status"+e.getMessage());
         }
     }
 }

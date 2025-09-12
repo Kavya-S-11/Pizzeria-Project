@@ -30,7 +30,7 @@ public class MenuUIController {
     public String listMenuItems(Model model) {
         List<MenuDTO> menus = menuClient.getAllMenus();
         model.addAttribute("menuList", menus);
-        return "adminMenu"; // JSP page in UI-service
+        return "adminMenu"; 
     }
 
     // Show add menu page
@@ -50,17 +50,14 @@ public class MenuUIController {
     
     @GetMapping("/ui/menus")
     public String getMenus(HttpSession session, Model model) {
-        // Check if user is logged in
         UserDTO user = (UserDTO) session.getAttribute("user");
         if (user == null) {
             return "redirect:/ui/users/login"; // redirect to login if session expired
         }
 
-        // Fetch menu items
         List<MenuDTO> menus = menuClient.getAllMenus();
         model.addAttribute("menuList", menus);
 
-        // Include user info for header/navbar
         model.addAttribute("user", user);
 
         return "menus";  
@@ -68,8 +65,8 @@ public class MenuUIController {
 
     @PostMapping("/ui/admin/menu/add")
     public String addMenu(@ModelAttribute MenuDTO menuItem) {
-        menuClient.addMenu(menuItem); // call backend service
-        return "redirect:/ui/admin/menu"; // redirect back to menu list
+        menuClient.addMenu(menuItem); 
+        return "redirect:/ui/admin/menu"; 
     }
     @PostMapping("/ui/admin/menu/edit/{id}")
     public String editMenu(@PathVariable Long id, @ModelAttribute MenuDTO menuItem) {
@@ -90,11 +87,11 @@ public class MenuUIController {
             return "redirect:/ui/users/login";
         }
 
-        MenuDTO item = menuClient.getMenuById(id); // make sure MenuClient points to /menu/{id}
+        MenuDTO item = menuClient.getMenuById(id); 
         model.addAttribute("menuItem", item);
         model.addAttribute("user", user);
 
-        return "menuDetails"; // create a JSP page for single menu item details
+        return "menuDetails"; 
     }
 
 

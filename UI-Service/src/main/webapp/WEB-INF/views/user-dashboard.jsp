@@ -7,56 +7,103 @@
     <title>User Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Custom SCSS-like styling */
         body {
             background-color: #f8f9fa;
         }
 
         .dashboard-container {
-            margin-top: 60px;
-            margin-bottom: 80px; /* space for sticky footer */
+            margin-top: 40px;
+            margin-bottom: 80px;
+            text-align: center;
         }
 
         .welcome-card {
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            padding: 30px;
-            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
         }
 
         .welcome-card h2 {
             color: #dc3545; /* red theme */
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
-        .dashboard-buttons .btn {
-            min-width: 150px;
-            margin: 10px;
+        .dashboard-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .action-card {
+            background: #dcdcdc;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 25px 30px;
+            width: 220px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .action-card h4 {
+            margin-top: 15px;
             font-weight: 600;
-            transition: transform 0.2s ease;
         }
 
-        .dashboard-buttons .btn:hover {
-            transform: scale(1.05);
+        .action-card i {
+            font-size: 40px;
+            color: #dc3545;
+        }
+
+        /* Adjust header logout button if needed */
+        .header-logout {
+            margin-left: auto;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<!-- Header -->
+<!-- Existing Header -->
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
+<!-- Add Logout button inside header (if header allows extra content) -->
+<div class="d-flex justify-content-end me-3 mt-2">
+    <a href="${pageContext.request.contextPath}/ui/users/logout" class="btn btn-danger btn-sm">
+        Logout <i class="fas fa-sign-out-alt"></i>
+    </a>
+</div>
+
+<!-- Main Content -->
 <div class="container dashboard-container">
     <div class="welcome-card">
         <h2>Welcome, ${user.name}!</h2>
         <p class="mb-4">Manage your orders and explore our menu</p>
 
-        <div class="dashboard-buttons">
-            <a href="${pageContext.request.contextPath}/ui/menus" class="btn btn-primary btn-lg">View Menu</a>
-            <a href="${pageContext.request.contextPath}/ui/cart" class="btn btn-success btn-lg">View My Cart</a>
-            <a href="${pageContext.request.contextPath}/ui/orders/my" class="btn btn-primary btn-lg">View My Orders</a>
-            <a href="${pageContext.request.contextPath}/ui/users/logout" class="btn btn-danger btn-lg">Logout</a>
+        <div class="dashboard-actions">
+            <a href="${pageContext.request.contextPath}/ui/menus" class="action-card">
+                <i class="fas fa-utensils"></i>
+                <h4>View Menu</h4>
+            </a>
+
+            <a href="${pageContext.request.contextPath}/ui/cart" class="action-card">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>My Cart</h4>
+            </a>
+
+            <a href="${pageContext.request.contextPath}/ui/orders/my" class="action-card">
+                <i class="fas fa-box"></i>
+                <h4>My Orders</h4>
+            </a>
         </div>
     </div>
 </div>

@@ -25,7 +25,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // PENDING, ACCEPTED, REJECTED, CANCELLED
 
-    private String deliveryMode; // e.g., "Home Delivery" or "Pickup"
+    private String deliveryMode; //  "Home Delivery" or "Pickup"
 
     private LocalDateTime orderDate;
 
@@ -34,6 +34,7 @@ public class Order {
 
     private String adminMessage; // message from admin about order status
     
+    private String paymentMode;
     
     public enum OrderStatus {
         PENDING,

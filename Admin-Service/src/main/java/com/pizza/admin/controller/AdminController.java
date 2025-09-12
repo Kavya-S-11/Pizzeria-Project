@@ -77,19 +77,17 @@ public class AdminController {
     public AdminDTO updateAdmin(@PathVariable Long id,
                                 @RequestBody AdminDTO adminDTO,
     							@RequestParam("token") String token){
-        // Ensure the id from path is set
+
         adminDTO.setId(id);
 
-        // Convert DTO → Entity
+
         Admin adminEntity = adminService.toEntity(adminDTO);
 
-        // Attach branch if branchId is present
         if (adminDTO.getBranchId() != null) {
             Branch branch = branchService.getBranchById(adminDTO.getBranchId());
             adminEntity.setBranch(branch);
         }
 
-        // Save and return updated DTO
         return adminService.toDTO(adminService.updateAdmin(adminEntity));
     }
 

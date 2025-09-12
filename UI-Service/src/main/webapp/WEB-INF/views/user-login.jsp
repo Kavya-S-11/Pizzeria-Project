@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Login - Healthify</title>
+    <title>User Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #ffe5e5; /* light minimal red tint */
+            background-color: #f8f9fa;
             min-height: 100vh;
             display: flex;
             flex-direction: column;

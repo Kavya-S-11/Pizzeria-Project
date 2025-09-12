@@ -14,4 +14,5 @@ public class OrderDTO {
     private LocalDateTime orderDate;
     private List<OrderItemDTO> items; // <-- here
     private String adminMessage;
+    private String paymentMode;
 }

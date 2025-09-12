@@ -13,6 +13,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(noCacheInterceptor)
-                .addPathPatterns("/admin/**"); // apply to all admin URLs
+                .addPathPatterns("/admin/**"); 
     }
 }

@@ -47,7 +47,6 @@ public class OrderUIController {
         Long userId = user.getUserId();
         System.out.println("User ID from session: " + userId);
 
-        // fetch cart directly from backend
         CartDTO cart = cartClient.getCart(userId);
         if (cart == null || cart.getItems() == null || cart.getItems().isEmpty()) {
         	 System.out.println("Cart is empty for user: " + userId);
@@ -56,7 +55,7 @@ public class OrderUIController {
         }
 
         System.out.println("Cart fetched, total items: " + cart.getItems().size());
-        // build order
+
         OrderDTO order = new OrderDTO();
         order.setUserId(userId);
         order.setTotalAmount(cart.getTotalAmount());
@@ -108,21 +107,11 @@ public class OrderUIController {
         UserDTO user = (UserDTO) session.getAttribute("user"); // get UserDTO from session
         if (user == null) return "redirect:/ui/users/login";
 
-        Long userId = user.getUserId(); // extract userId
+        Long userId = user.getUserId(); 
         orderClient.cancelOrder(orderId);
-        return "redirect:/ui/orders/my"; // refresh orders page
+        return "redirect:/ui/orders/my"; 
     }
 
-
-    @PostMapping("/pay/{orderId}")
-    public String payOrder(@PathVariable Long orderId, HttpSession session) {
-        UserDTO user = (UserDTO) session.getAttribute("user"); // get UserDTO from session
-        if (user == null) return "redirect:/ui/users/login";
-
-        Long userId = user.getUserId(); // extract userId
-        orderClient.payOrder(orderId);
-        return "redirect:/ui/orders/my"; // refresh orders page
-    }
 
 
 }

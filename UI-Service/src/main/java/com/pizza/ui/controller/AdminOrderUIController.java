@@ -24,7 +24,7 @@ public class AdminOrderUIController {
         List<OrderDTO> orders = orderClient.getAllOrders(); // You can filter PENDING in backend if needed
         orders.removeIf(o -> !o.getStatus().equals("PENDING")); // Only show pending
         model.addAttribute("orders", orders);
-        return "adminOrders"; // JSP page
+        return "adminOrders"; 
     }
 
     // Accept / Reject order

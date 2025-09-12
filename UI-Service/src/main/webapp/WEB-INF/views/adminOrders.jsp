@@ -22,7 +22,10 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Pending Orders</h2>
-        <a href="${pageContext.request.contextPath}/ui/admin/dashboard" class="btn btn-secondary btn-sm back-btn">Back to Dashboard</a>
+       <form action="${pageContext.request.contextPath}/ui/admins/dashboard" method="get">
+    <button type="submit" class="btn btn-secondary btn-sm back-btn">Back to Dashboard</button>
+</form>
+
     </div>
 
     <c:if test="${empty orders}">
@@ -77,38 +80,34 @@
     </c:if>
 </div>
 
-<!-- Footer -->
-<jsp:include page="/WEB-INF/views/footer.jsp"/>
-
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Optional AJAX submit for smoother experience -->
 <script>
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        const formData = new FormData(form);
-        const status = formData.get('status');
-        const message = formData.get('message');
+
+        // get which button was clicked
+        const clickedButton = e.submitter; 
+        const status = clickedButton.value; 
+        const message = form.querySelector('input[name="message"]').value;
 
         fetch(form.action, {
-            method: 'POST',
-            body: new URLSearchParams({status, message})
+            method: 'POST', // still hits AdminService controller
+            body: new URLSearchParams({ status, message })
         })
         .then(response => {
             if (!response.ok) throw new Error('Failed to update order status');
             return response.text();
         })
-        .then(data => {
+        .then(() => {
             alert('Order status updated successfully!');
             location.reload();
         })
-        .catch(err => {
-            alert(err.message);
-        });
+        .catch(err => alert(err.message));
     });
 });
+
 
 </script>
 

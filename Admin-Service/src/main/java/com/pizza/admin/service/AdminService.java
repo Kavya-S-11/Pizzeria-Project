@@ -26,14 +26,12 @@ public class AdminService {
 
     // ---------------- Login ----------------
     public Optional<Admin> login(String username, String password) {
-        // Just match username and plain password
         return adminRepo.findByUsernameAndPassword(username, password);
     }
 
     // ---------------- Add Admin ----------------
     public Admin addNewAdmin(Admin admin) {
         admin.setAdminRole(Admin.Role.ADMIN);
-        // store password as plain text
         admin.setActive(true); 
         return adminRepo.save(admin);
     }
@@ -59,7 +57,6 @@ public class AdminService {
             existing.setAdminRole(admin.getAdminRole());
         }
 
-        // ✅ Correct branch update
         if (admin.getBranch() != null && admin.getBranch().getId() != null) {
             Branch branch = branchRepo.findById(admin.getBranch().getId())
                     .orElseThrow(() -> new RuntimeException("Branch not found!"));

@@ -11,7 +11,7 @@ public class CartItemDTO {
     private Long id;       // CartItem ID from DB
     private Long itemId;   // menuItemId
     private String name;   // menu item name
-    private double price;  // menu item price
-    private int quantity;  // quantity in cart
-    private double subtotal; // price * quantity
+    private double price;  
+    private int quantity;  
+    private double subtotal;
 }
