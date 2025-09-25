@@ -21,7 +21,7 @@ public class PaymentController {
     public String payOrder(@PathVariable Long orderId, Model model) {
         OrderDTO order = orderClient.getOrderById(orderId);
         model.addAttribute("order", order);
-        return "paymentPage"; // JSP
+        return "paymentPage";
     }
 
     @PostMapping("/confirmPayment/{orderId}")
@@ -29,7 +29,7 @@ public class PaymentController {
                                  @RequestParam String paymentMode) {
 
         orderClient.updateOrderStatus(orderId, "COMPLETED", paymentMode);
-        return "redirect:/ui/orders/myOrders";
+        return "redirect:/ui/orders/my";
     }
 
 }

@@ -22,9 +22,9 @@ public interface OrderClient {
     OrderDTO cancelOrder(@PathVariable("id") Long orderId);
 
    
-    @PutMapping("/orders/pay/{id}")
-    OrderDTO payOrder(@PathVariable("id") Long id);
-    
+//    @PutMapping("/orders/pay/{id}")
+//    OrderDTO payOrder(@PathVariable("id") Long id);
+//    
     @PutMapping("/orders/status/{id}")
     void updateStatus(@PathVariable("id") Long orderId,
                       @RequestParam("status") String status,
@@ -34,7 +34,7 @@ public interface OrderClient {
     OrderDTO getOrderById(@PathVariable("id") Long orderId);
 
     // Update order status (with payment mode)
-    @PutMapping("/orders/{orderId}/status")
+    @PutMapping("/orders/{id}/status")
     void updateOrderStatus(@PathVariable("id") Long orderId,
                            @RequestParam("status") String status,
                            @RequestParam("paymentMode") String paymentMode);
